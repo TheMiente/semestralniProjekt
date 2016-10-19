@@ -1,4 +1,4 @@
-package semestralniProjekt;
+package cz.uhk.FimBird;
 
 public class Main {
 
