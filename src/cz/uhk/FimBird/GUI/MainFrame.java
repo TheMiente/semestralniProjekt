@@ -1,22 +1,31 @@
 package cz.uhk.FimBird.GUI;
 
-import java.awt.Color;
-import java.awt.Dimension;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class MainFrame extends JFrame {
-	private final static int width = 480;
-	private final static int height = 800;
+	public final static int width = 480;
+	public final static int height = 800;
+	
+	private Screen screen;
 	
 	public MainFrame(){
 		setSize(width, height);
 		setTitle("FimBird");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
 		setLocationRelativeTo(null);
+		setVisible(true);
+	}
+	
+	public void setScreen(Screen screen){
+		if(this.screen != null){
+			remove(this.screen);
+		}
+		
+		this.screen = screen;
+		add(screen);
+		
+		revalidate();
 	}
 	
 }
