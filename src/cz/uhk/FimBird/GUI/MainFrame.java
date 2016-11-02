@@ -6,7 +6,7 @@ public class MainFrame extends JFrame {
 	public final static int width = 480;
 	public final static int height = 800;
 	
-	private Screen screen;
+	private BaseScreen screen;
 	
 	public MainFrame(){
 		setSize(width, height);
@@ -17,7 +17,7 @@ public class MainFrame extends JFrame {
 		setVisible(true);
 	}
 	
-	public void setScreen(Screen screen){
+	public void setScreen(BaseScreen screen){
 		if(this.screen != null){
 			remove(this.screen);
 		}
