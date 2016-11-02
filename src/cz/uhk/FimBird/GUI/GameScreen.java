@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-public class GameScreen extends Screen {
+public class GameScreen extends BaseScreen {
 
 	public GameScreen(MainFrame mainFrame) {
 		super(mainFrame);
@@ -14,6 +14,8 @@ public class GameScreen extends Screen {
 		setBackground(Color.BLUE);
 		
 		JButton back = new JButton("Back");
+		back.setLocation(100, 410);
+		back.setSize(280, 50);
 		
 		back.addActionListener(new ActionListener() {
 			
