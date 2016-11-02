@@ -22,5 +22,17 @@ public class World {
 	public void addHeart(Heart heart){
 		hearts.add(heart);
 	}
+	
+	public Bird getBird() {
+		return bird;
+	}
+
+	@Override
+	public String toString() {
+		return "Jmeno: " + bird.getName() + 
+				" Pozice: " + bird.getPositionX() + " " + bird.getPositionY() + 
+				" Pocet trubek: " + tubes.size() + 
+				" Pocet srdicek: " + hearts.size();
+	}
 
 }

@@ -7,10 +7,10 @@ public class Tube {
 	private float height;
 	private Color color;
 	
-	public Tube(float positionX, float height, Color color) {
+	public Tube(float positionX, float height) {
 		this.positionX = positionX;
 		this.height = height;
-		this.color = color;
+		this.color = Color.GREEN;
 	}
 
 	public float getPositionX() {
