@@ -1,5 +1,8 @@
 package cz.uhk.FimBird.Model;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class Bird {
 	private String name;
 	private float positionX, positionY;
@@ -15,6 +18,19 @@ public class Bird {
 		this.positionY = positionY;
 		this.speed = 0;
 		this.lives = 3;
+	}
+	
+	public void paint(Graphics g){
+		g.setColor(Color.BLUE);
+		
+		g.fillRect(
+				(int) positionX - 25, 
+				(int) positionY - 25, 
+				50, 50);
+	}
+	
+	public void update(float deltaTime){
+		positionX += World.SPEED * deltaTime;
 	}
 	
 	public String getName(){

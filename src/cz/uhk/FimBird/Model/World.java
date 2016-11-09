@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class World {
+	public static final int SPEED = 100;
 	
 	private Bird bird;
 	private List<Tube> tubes;
@@ -13,6 +14,10 @@ public class World {
 		this.bird = bird;
 		this.tubes = new ArrayList<>();
 		this.hearts = new ArrayList<>();
+	}
+	
+	public void update(float deltaTime){
+		bird.update(deltaTime);
 	}
 	
 	public void addTube(Tube tube){
@@ -25,6 +30,14 @@ public class World {
 	
 	public Bird getBird() {
 		return bird;
+	}
+	
+	public List<Heart> getHearts(){
+		return hearts;
+	}
+
+	public List<Tube> getTubes() {
+		return tubes;
 	}
 
 	@Override
