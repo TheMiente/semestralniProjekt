@@ -2,7 +2,6 @@ package cz.uhk.FimBird;
 
 import cz.uhk.FimBird.GUI.HomeScreen;
 import cz.uhk.FimBird.GUI.MainFrame;
-import cz.uhk.FimBird.GUI.ScoreScreen;
 
 public class Game {
 
