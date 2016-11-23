@@ -31,22 +31,21 @@ public class World {
 			Tube tube = tubes.get(i);
 			tube.update(deltaTime);
 			
-			if(tube.getPositionX() < -25){
-				tubes.remove(i);
-			}
-			
 			if(bird.collideWith(tube)){
+				System.out.println(bird.immortality + " godmod");
+				if(!bird.isGodModOn())
 				worldListener.crashTube(tube);
-			}
+				tube.pointAdded();
+			}else if(!tube.isPointAdded() && bird.getPositionX() > tube.getMinimumX() && bird.getPositionX() < tube.getMaximumX()){
+					tube.pointAdded();
+					bird.addPoint();
+					System.out.println(bird.getScore());
+				}
 		}
 		
 		for(int i = 0; i < hearts.size(); i++){
 			Heart heart = hearts.get(i);
 			heart.update(deltaTime);
-			
-			if(heart.getPositionX() < -25){
-				hearts.remove(i);
-			}
 
 			if(bird.collideWith(heart)){
 				worldListener.catchHeart(heart);

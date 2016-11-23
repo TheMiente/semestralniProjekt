@@ -7,13 +7,19 @@ import java.awt.Rectangle;
 import cz.uhk.FimBird.GUI.MainFrame;
 
 public class Bird {
+	public final static int JUMP = 600;
+	public final static int DEFAULT_SCORE = 0;
+	public final static int DEFAULT_LIVES = 3;
+	
 	private final static int GRAVITY = 300;
-	private final static int JUMP = 600;
+	private final static int IMMORTALITY = 1;
 	
 	private String name;
 	private float positionX, positionY;
 	private float speed;
 	private int lives;
+	private int score;
+	public float immortality;
 	
 	//TODO
 	//konstruktor, gettery, settery, toString
@@ -23,7 +29,25 @@ public class Bird {
 		this.positionX = positionX;
 		this.positionY = positionY;
 		this.speed = 0;
-		this.lives = 3;
+		this.lives = DEFAULT_LIVES;
+		this.score = DEFAULT_SCORE;
+		this.immortality = 0;
+	}
+
+	public void goUp(){
+		speed = JUMP;
+	}
+
+	public void catchHeart(){
+		lives++;
+	}
+	
+	public void removeLife(){
+		lives--;
+	}
+
+	public void addPoint(){
+		score++;
 	}
 	
 	public void paint(Graphics g){
@@ -63,9 +87,19 @@ public class Bird {
 	public boolean collideWith(Heart heart){
 		return getRectangle().intersects(heart.getRectangle());
 	}
-	 public boolean isOut(){
-		 return positionY - 25 > MainFrame.height || positionY - 25 < 0;
-	 }
+	
+	public boolean isOut(){
+		return positionY - 25 > MainFrame.height || positionY - 25 < 0;
+	}
+		
+	public int getScore() {
+		return score;
+	}
+	
+	public void setSpeed(float speed) {
+		this.speed = speed;
+	}
+
 	public String getName(){
 		return name;
 	}
@@ -93,25 +127,24 @@ public class Bird {
 	public void setLives(int lives) {
 		this.lives = lives;
 	}
-
-	public void goUp(){
-		speed = JUMP;
-	}
-
-	public void catchHeart(){
+	
+	public void dieMotherfucker(){
 		
 	}
 	
-	public void die(){
-		
+	public void godModOn(){
+		immortality = IMMORTALITY;
 	}
 	
-	public void addLive(){
-		if(lives < 4)
-			lives += 1;
+	public boolean isGodModOn(){
+		return immortality > 0;
 	}
 	
-	public void removeLive(){
-			lives -= 1;
+	public void attackGodMod(float ms){
+		immortality -= ms;
+	}
+	
+	public boolean isDead() {
+		return getLives() < 1;
 	}
 }

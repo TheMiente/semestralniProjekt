@@ -8,15 +8,18 @@ import cz.uhk.FimBird.GUI.MainFrame;
 
 public class Tube {
 	private static final int GAP = 200;
+	private static final int WIDTH = 50;
 	
 	private float positionX;
 	private float height;
 	private Color color;
+	private boolean pointAdded;
 	
 	public Tube(float positionX, float height) {
 		this.positionX = positionX;
 		this.height = height;
 		this.color = Color.GREEN;
+		this.pointAdded = false;
 	}
 	
 	public void update(float deltaTime){
@@ -43,18 +46,38 @@ public class Tube {
 	
 	public Rectangle getTopRectangle(){
 		return new Rectangle(
-				(int)positionX - 25, 
+				(int)positionX - WIDTH/2, 
 				0,
-				50, 
+				WIDTH, 
 				(int)height - GAP);
 	}
 	
 	public Rectangle getBottomRectangle(){
 		return new Rectangle(
-				(int)positionX - 25, 
+				(int)positionX - WIDTH/2, 
 				(int)height,
-				50, 
+				WIDTH, 
 				MainFrame.height - (int)height);
+	}
+	
+	public boolean isPointAdded(){
+		return pointAdded;
+	}
+	
+	public void pointAdded(){
+		this.pointAdded = true;
+	}
+	
+	public int getMaximumX(){
+		return (int)getPositionX() + WIDTH/2;
+	}
+	
+	public int getMinimumX(){
+		return (int)getPositionX() - WIDTH/2;
+	}
+	
+	public int getCenterY(){
+		return (int) height - GAP/2;
 	}
 
 	public float getPositionX() {
