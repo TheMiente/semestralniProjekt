@@ -3,6 +3,9 @@ package cz.uhk.FimBird.Model;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.Random;
+
+import cz.uhk.FimBird.GUI.MainFrame;
 
 public class Heart {
 	private float positionX, positionY;
@@ -50,5 +53,9 @@ public class Heart {
 
 	public void setPositionY(float positionY) {
 		this.positionY = positionY;
+	}
+	
+	public static float getRandomHeight(){
+		return new Random().nextFloat() * 300 + 200;
 	}
 }

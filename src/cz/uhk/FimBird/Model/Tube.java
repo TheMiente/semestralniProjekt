@@ -3,6 +3,7 @@ package cz.uhk.FimBird.Model;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.Random;
 
 import cz.uhk.FimBird.GUI.MainFrame;
 
@@ -68,6 +69,10 @@ public class Tube {
 		this.pointAdded = true;
 	}
 	
+	public void pointNotAddedAnymore(){
+		this.pointAdded = false;
+	}
+	
 	public int getMaximumX(){
 		return (int)getPositionX() + WIDTH/2;
 	}
@@ -91,10 +96,16 @@ public class Tube {
 	public float getHeight() {
 		return height;
 	}
+	
+	public void setHeight(float height) {
+		this.height = height;
+	}
 
 	public Color getColor() {
 		return color;
 	}
 	
-	
+	public static float getRandomHeight(){
+		return new Random().nextFloat() * 400 + 200;
+	}
 }

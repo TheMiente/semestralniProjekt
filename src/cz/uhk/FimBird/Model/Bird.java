@@ -12,14 +12,14 @@ public class Bird {
 	public final static int DEFAULT_LIVES = 3;
 	
 	private final static int GRAVITY = 300;
-	private final static int IMMORTALITY = 1;
+	private final static float IMMORTALITY = 1;
 	
 	private String name;
 	private float positionX, positionY;
 	private float speed;
+	private float immortality;
 	private int lives;
 	private int score;
-	public float immortality;
 	
 	//TODO
 	//konstruktor, gettery, settery, toString
@@ -31,7 +31,14 @@ public class Bird {
 		this.speed = 0;
 		this.lives = DEFAULT_LIVES;
 		this.score = DEFAULT_SCORE;
-		this.immortality = 0;
+	}
+	
+	public void godModOn(){
+		immortality = IMMORTALITY;
+	}
+	
+	public boolean isGodModOn(){
+		return immortality > 0;
 	}
 
 	public void goUp(){
@@ -68,6 +75,10 @@ public class Bird {
 		positionY += GRAVITY * deltaTime;
 		
 		speed -= speed * deltaTime;
+		
+
+		if(immortality > 0)
+			immortality -= deltaTime;
 	}
 	
 	public Rectangle getRectangle(){
@@ -89,7 +100,7 @@ public class Bird {
 	}
 	
 	public boolean isOut(){
-		return positionY - 25 > MainFrame.height || positionY - 25 < 0;
+		return positionY > MainFrame.height-100 || positionY - 25 < 0;
 	}
 		
 	public int getScore() {
@@ -131,19 +142,7 @@ public class Bird {
 	public void dieMotherfucker(){
 		
 	}
-	
-	public void godModOn(){
-		immortality = IMMORTALITY;
-	}
-	
-	public boolean isGodModOn(){
-		return immortality > 0;
-	}
-	
-	public void attackGodMod(float ms){
-		immortality -= ms;
-	}
-	
+
 	public boolean isDead() {
 		return getLives() < 1;
 	}
