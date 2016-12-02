@@ -29,7 +29,7 @@ public class GameScreen extends BaseScreen implements WorldListener{
 	private Bird bird;
 	private World world;
 	
-	private JLabel labelLives, labelScore;
+	private JLabel labelScore;
 
 	public GameScreen(MainFrame mainFrame) {
 		super(mainFrame);
@@ -58,27 +58,29 @@ public class GameScreen extends BaseScreen implements WorldListener{
 				if(timer.isRunning())
 					timer.stop();
 				else{
-					lastTimeMillis = System.currentTimeMillis();
-					timer.restart();		
+					if(pause.getText() == "Pause"){
+						lastTimeMillis = System.currentTimeMillis();
+						timer.restart();
+					}else{
+						pause.setText("Pause");
+						world.restart();
+						repaint();
+					}
+					addNotify();
 				}
 			}
 		});
-
-		labelLives = new JLabel("Lives: " + Bird.DEFAULT_LIVES);
-		labelLives.setForeground(Color.red);
-		labelLives.setBounds(10,50,50,30);
 		
 		labelScore = new JLabel("" + Bird.DEFAULT_SCORE);
 		labelScore.setBounds(MainFrame.width/2 - 10, 10, 50, 40);
 		labelScore.setFont(new Font("Bauhaus 93", Font.PLAIN, 40));
 		labelScore.setForeground(Color.red);
 		
-		add(labelLives);
 		add(labelScore);
 		add(back);
 		add(pause);
 
-		bird = new Bird("Pepa", 240, 400);
+		bird = new Bird("Pepa");
 		world = new World(bird, this);
 		world.generateRandom();
 		
@@ -86,6 +88,10 @@ public class GameScreen extends BaseScreen implements WorldListener{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				bird.goUp();
+				if(!timer.isRunning()){
+					lastTimeMillis = System.currentTimeMillis();
+					timer.start();
+				}
 			}
 		});
 		
@@ -93,6 +99,10 @@ public class GameScreen extends BaseScreen implements WorldListener{
 			@Override
 			public void keyPressed(KeyEvent e) {
 				bird.goUp();
+				if(!timer.isRunning()){
+					lastTimeMillis = System.currentTimeMillis();
+					timer.start();
+				}
 			}
 		});
 		
@@ -105,28 +115,36 @@ public class GameScreen extends BaseScreen implements WorldListener{
 				float deltaTime = (currentTimeMillis - lastTimeMillis) / 1000f;
 				
 				world.update(deltaTime);
-				
-				labelLives.setText("Lives: " + bird.getLives());
-				labelScore.setText("" + bird.getScore());
-				
+
+				labelScore.setText("" + bird.getScore());				
+
 				if(bird.isDead()){
 					timer.stop();
+					pause.setText("Restart");
 				}
 
 				repaint();
 				lastTimeMillis = currentTimeMillis;
 			}
 		});
-		
-		lastTimeMillis = System.currentTimeMillis();
-		timer.start();
+		//timer.start();
 		
 		System.out.println(world);
 	}
 	
 	@Override
+	public void addNotify() {
+        super.addNotify();
+        requestFocus();
+    }
+	
+	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
+		g.setColor(Color.red);
+		for(int i = 0; i < bird.getLives(); i++)
+			g.fillRect(MainFrame.width - i*40 - 40 , 10, 30, 30);
 		
 		List<Heart> hearts = world.getHearts();
 		for(Heart heart : hearts)

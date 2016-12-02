@@ -10,6 +10,8 @@ public class Bird {
 	public final static int JUMP = 600;
 	public final static int DEFAULT_SCORE = 0;
 	public final static int DEFAULT_LIVES = 3;
+	public final static int DEFAULT_X = 240;
+	public final static int DEFAULT_Y = 400;
 	
 	private final static int GRAVITY = 300;
 	private final static float IMMORTALITY = 1;
@@ -21,9 +23,10 @@ public class Bird {
 	private int lives;
 	private int score;
 	
-	//TODO
-	//konstruktor, gettery, settery, toString
-
+	public Bird(String name){
+		this(name, DEFAULT_X, DEFAULT_Y);
+	}
+	
 	public Bird(String name, float positionX, float positionY) {
 		this.name = name;
 		this.positionX = positionX;
@@ -46,7 +49,8 @@ public class Bird {
 	}
 
 	public void catchHeart(){
-		lives++;
+		if(getLives() < 5)
+			lives++;
 	}
 	
 	public void removeLife(){
@@ -140,7 +144,10 @@ public class Bird {
 	}
 	
 	public void dieMotherfucker(){
-		
+		score = DEFAULT_SCORE;
+		lives = DEFAULT_LIVES;
+		setPositionX(DEFAULT_X);
+		setPositionY(DEFAULT_Y);
 	}
 
 	public boolean isDead() {

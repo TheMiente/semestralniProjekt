@@ -6,7 +6,7 @@ import java.util.List;
 import cz.uhk.FimBird.Interface.WorldListener;
 
 public class World {
-	public static final int SPEED = 150;
+	public static final int SPEED = 200;
 
 	private static final int SPACE_BETWEEN_TUBES = 300;
 	private static final int SPACE_BETWEEN_HEARTS = 750;
@@ -15,25 +15,21 @@ public class World {
 	private WorldListener worldListener;
 	private List<Tube> tubes;
 	private List<Heart> hearts;
-	private boolean generated;
 	
 	public World(Bird bird, WorldListener worldListener){
 		this.bird = bird;
 		this.worldListener = worldListener;
 		this.tubes = new ArrayList<>();
 		this.hearts = new ArrayList<>();
-		generated = false;
 	}
 	
 	public void update(float deltaTime){
+		regenerate();
+
 		bird.update(deltaTime);
 		
-		if(generated)
-			regenerate();
-		
-		if(bird.isOut()){
+		if(bird.isOut())
 			worldListener.outOf();
-		}
 		
 		for(int i = 0; i < tubes.size(); i++){
 			Tube tube = tubes.get(i);
@@ -41,7 +37,7 @@ public class World {
 			
 			if(bird.collideWith(tube)){
 				if(!bird.isGodModOn())
-				worldListener.crashTube(tube);
+					worldListener.crashTube(tube);
 				tube.pointAdded();
 			}else if(!tube.isPointAdded() && bird.getPositionX() > tube.getMinimumX() && bird.getPositionX() < tube.getMaximumX()){
 					tube.pointAdded();
@@ -60,14 +56,18 @@ public class World {
 		
 	}
 	
+	public void restart(){
+		bird.dieMotherfucker();
+		getTubes().clear();
+		getHearts().clear();
+		generateRandom();
+	}
+	
 	public void generateRandom(){
-		for(int i = 1; i < 3; i++){
+		for(int i = 1; i < 3; i++)
 			addTube(new Tube(SPACE_BETWEEN_TUBES + i * SPACE_BETWEEN_TUBES, Tube.getRandomHeight()));
-		}
 		
 		addHeart(new Heart(SPACE_BETWEEN_HEARTS, Heart.getRandomHeight()));
-		
-		generated = true;
 	}
 	
 	public void regenerate(){
