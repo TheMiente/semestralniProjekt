@@ -5,6 +5,8 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -29,11 +31,10 @@ public class GameScreen extends BaseScreen implements WorldListener{
 	private Bird bird;
 	private World world;
 	
-	private JLabel labelScore;
+	private JLabel labelScore, labelGameOver;
 
 	public GameScreen(MainFrame mainFrame) {
 		super(mainFrame);
-		setBackground(Color.cyan);
 
 		JButton back = new JButton("Back");
 		back.setLocation(10, 10);
@@ -62,8 +63,10 @@ public class GameScreen extends BaseScreen implements WorldListener{
 						lastTimeMillis = System.currentTimeMillis();
 						timer.restart();
 					}else{
+						labelGameOver.setVisible(false);
 						pause.setText("Pause");
 						world.restart();
+						labelScore.setText("" + bird.getScore());
 						repaint();
 					}
 					addNotify();
@@ -71,11 +74,18 @@ public class GameScreen extends BaseScreen implements WorldListener{
 			}
 		});
 		
+		labelGameOver = new JLabel("Game Over");
+		labelGameOver.setBounds(MainFrame.width/2 - 100, MainFrame.height/2 - 40, 200, 40);
+		labelGameOver.setFont(new Font("Bauhaus 93", Font.PLAIN, 40));
+		labelGameOver.setForeground(Color.red);
+		labelGameOver.setVisible(false);
+		
 		labelScore = new JLabel("" + Bird.DEFAULT_SCORE);
 		labelScore.setBounds(MainFrame.width/2 - 10, 10, 50, 40);
 		labelScore.setFont(new Font("Bauhaus 93", Font.PLAIN, 40));
 		labelScore.setForeground(Color.red);
 		
+		add(labelGameOver);
 		add(labelScore);
 		add(back);
 		add(pause);
@@ -121,14 +131,15 @@ public class GameScreen extends BaseScreen implements WorldListener{
 				if(bird.isDead()){
 					timer.stop();
 					pause.setText("Restart");
+					labelGameOver.setVisible(true);
 				}
 
 				repaint();
+				
 				lastTimeMillis = currentTimeMillis;
 			}
 		});
-		//timer.start();
-		
+
 		System.out.println(world);
 	}
 	
@@ -142,9 +153,7 @@ public class GameScreen extends BaseScreen implements WorldListener{
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		g.setColor(Color.red);
-		for(int i = 0; i < bird.getLives(); i++)
-			g.fillRect(MainFrame.width - i*40 - 40 , 10, 30, 30);
+		world.drawWorldBackground(g, this);
 		
 		List<Heart> hearts = world.getHearts();
 		for(Heart heart : hearts)
@@ -155,9 +164,13 @@ public class GameScreen extends BaseScreen implements WorldListener{
 			tube.paint(g);
 		}
 		
+		g.setColor(Color.red);
+		for(int i = 0; i < bird.getLives(); i++)
+			g.fillRect(MainFrame.width - i*40 - 40 , 10, 30, 30);
+		
 		Bird bird = world.getBird();
 		bird.paint(g);
-	
+
 		g.setColor(new Color(0xf4a460));
 		g.fillRect(0, 700, MainFrame.width, 100);
 	}
@@ -178,14 +191,9 @@ public class GameScreen extends BaseScreen implements WorldListener{
 
 	@Override
 	public void outOf() {
-		System.out.println("seš lempl.");
 		if(bird.getPositionY() > MainFrame.height - 100)
 			bird.setPositionY(50);
 		else
 			bird.setPositionY(MainFrame.height - 150);
-		//bird.setPositionY(MainFrame.height/2);
-		//bird.setSpeed(Bird.JUMP/2);
-		
-		//bird.removeLife();
 	}
 }

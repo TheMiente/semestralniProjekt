@@ -5,8 +5,6 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
 
-import cz.uhk.FimBird.GUI.MainFrame;
-
 public class Heart {
 	private float positionX, positionY;
 

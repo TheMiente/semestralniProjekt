@@ -1,8 +1,13 @@
 package cz.uhk.FimBird.Model;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.uhk.FimBird.GUI.GameScreen;
 import cz.uhk.FimBird.Interface.WorldListener;
 
 public class World {
@@ -15,12 +20,21 @@ public class World {
 	private WorldListener worldListener;
 	private List<Tube> tubes;
 	private List<Heart> hearts;
+	private Image background;
+	private float backgroundMargin;
 	
 	public World(Bird bird, WorldListener worldListener){
 		this.bird = bird;
 		this.worldListener = worldListener;
 		this.tubes = new ArrayList<>();
 		this.hearts = new ArrayList<>();
+
+		background = Toolkit.
+				getDefaultToolkit().
+				getImage(getClass().
+				getResource("background.jpg"));
+		System.out.println(background);
+		backgroundMargin = 0;
 	}
 	
 	public void update(float deltaTime){
@@ -54,9 +68,20 @@ public class World {
 			}
 		}
 		
+		if(backgroundMargin > background.getWidth(null))
+			backgroundMargin = 0;
+		else
+			backgroundMargin += 0.1f;
+		
+	}
+	
+	public void drawWorldBackground(Graphics g, GameScreen gameScreen){
+		g.drawImage(background, (int)(backgroundMargin), 0, gameScreen);
+		g.drawImage(background, (int)(backgroundMargin - background.getWidth(null)), 0, gameScreen);
 	}
 	
 	public void restart(){
+		backgroundMargin = 0;
 		bird.dieMotherfucker();
 		getTubes().clear();
 		getHearts().clear();
