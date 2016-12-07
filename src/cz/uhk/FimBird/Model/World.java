@@ -14,7 +14,7 @@ public class World {
 	public static final int SPEED = 200;
 
 	private static final int SPACE_BETWEEN_TUBES = 300;
-	private static final int SPACE_BETWEEN_HEARTS = 750;
+	private static final int SPACE_BETWEEN_HEARTS = 1050;
 	
 	private Bird bird;
 	private WorldListener worldListener;
@@ -33,7 +33,7 @@ public class World {
 				getDefaultToolkit().
 				getImage(getClass().
 				getResource("background.jpg"));
-		System.out.println(background);
+
 		backgroundMargin = 0;
 	}
 	
@@ -89,7 +89,7 @@ public class World {
 	}
 	
 	public void generateRandom(){
-		for(int i = 1; i < 3; i++)
+		for(int i = 1; i < 4; i++)
 			addTube(new Tube(SPACE_BETWEEN_TUBES + i * SPACE_BETWEEN_TUBES, Tube.getRandomHeight()));
 		
 		addHeart(new Heart(SPACE_BETWEEN_HEARTS, Heart.getRandomHeight()));

@@ -5,8 +5,6 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -81,7 +79,7 @@ public class GameScreen extends BaseScreen implements WorldListener{
 		labelGameOver.setVisible(false);
 		
 		labelScore = new JLabel("" + Bird.DEFAULT_SCORE);
-		labelScore.setBounds(MainFrame.width/2 - 10, 10, 50, 40);
+		labelScore.setBounds(MainFrame.width/2 - 10, 10, 100, 40);
 		labelScore.setFont(new Font("Bauhaus 93", Font.PLAIN, 40));
 		labelScore.setForeground(Color.red);
 		
@@ -126,7 +124,7 @@ public class GameScreen extends BaseScreen implements WorldListener{
 				
 				world.update(deltaTime);
 
-				labelScore.setText("" + bird.getScore());				
+				labelScore.setText("" + bird.getScore());	
 
 				if(bird.isDead()){
 					timer.stop();
@@ -166,7 +164,7 @@ public class GameScreen extends BaseScreen implements WorldListener{
 		
 		g.setColor(Color.red);
 		for(int i = 0; i < bird.getLives(); i++)
-			g.fillRect(MainFrame.width - i*40 - 40 , 10, 30, 30);
+			g.drawImage(Heart.getImg(), MainFrame.width - i*40 - 40, 10, this);
 		
 		Bird bird = world.getBird();
 		bird.paint(g);

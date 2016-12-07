@@ -3,7 +3,7 @@ package cz.uhk.FimBird.GUI;
 import javax.swing.JFrame;
 
 public class MainFrame extends JFrame {
-	public final static int width = 480;
+	public final static int width = 600;
 	public final static int height = 800;
 	
 	private BaseScreen screen;

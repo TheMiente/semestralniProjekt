@@ -19,19 +19,20 @@ public class HomeScreen extends BaseScreen {
 		
 		JLabel label = new JLabel("Fimbird");
 		label.setFont(new Font("Bauhaus 93", Font.PLAIN, 30));
-	    label.setSize(480, 50);
-		label.setHorizontalAlignment(SwingConstants.CENTER);
+	    label.setSize(100, 50);
+	    label.setLocation(MainFrame.width/2 - 50, 10);
 		
 		JButton play = new JButton("Play");
 		JButton score = new JButton("Score");
 		JButton sound = new JButton("Sound");
 		
 		Dimension buttonSize = new Dimension(280, 50);
-		play.setLocation(100, 410);
+		int locationX = (int) (MainFrame.width/2 - buttonSize.getWidth()/2);
+		play.setLocation(locationX, 410);
 		play.setSize(buttonSize);
-		score.setLocation(100, 470);
+		score.setLocation(locationX, 470);
 		score.setSize(buttonSize);
-		sound.setLocation(100, 530);
+		sound.setLocation(locationX, 530);
 		sound.setSize(buttonSize);
 
 		play.addActionListener(new ActionListener() {

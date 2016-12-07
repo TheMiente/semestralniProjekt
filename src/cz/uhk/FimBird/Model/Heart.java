@@ -2,11 +2,26 @@ package cz.uhk.FimBird.Model;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.util.Random;
+
+import cz.uhk.FimBird.GUI.HomeScreen;
 
 public class Heart {
 	private float positionX, positionY;
+	private static Image img;
+	static {
+		img = Toolkit.
+				getDefaultToolkit().
+				getImage(Heart.class.
+				getResource("heart.png"));
+	}
+	
+	public static Image getImg() {
+		return img;
+	}
 
 	public Heart(float positionX, float positionY) {
 		super();
@@ -23,18 +38,15 @@ public class Heart {
 		
 		Rectangle rectangle = getRectangle();
 		
-		g.fillRect(
-				rectangle.x, 
-				rectangle.y, 
-				rectangle.width,
-				rectangle.height);
+		g.drawImage(getImg(), rectangle.x, rectangle.y, null);
 	}
 	
 	public Rectangle getRectangle(){
 		return new Rectangle(
-				(int) positionX - 25, 
-				(int) positionY - 25, 
-				50, 50);
+				(int) positionX - img.getHeight(null)/2, 
+				(int) positionY - img.getHeight(null)/2, 
+				img.getWidth(null),
+				img.getHeight(null));
 	}
 	
 	public float getPositionX() {

@@ -2,7 +2,11 @@ package cz.uhk.FimBird.Model;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.List;
 
 import cz.uhk.FimBird.GUI.MainFrame;
 
@@ -12,8 +16,9 @@ public class Bird {
 	public final static int DEFAULT_LIVES = 3;
 	public final static int DEFAULT_X = 240;
 	public final static int DEFAULT_Y = 400;
+	public final static int MAX_LIVES = 5;
 	
-	private final static int GRAVITY = 300;
+	private final static int GRAVITY = 350;
 	private final static float IMMORTALITY = 1;
 	
 	private String name;
@@ -22,6 +27,7 @@ public class Bird {
 	private float immortality;
 	private int lives;
 	private int score;
+	private Image img;
 	
 	public Bird(String name){
 		this(name, DEFAULT_X, DEFAULT_Y);
@@ -34,6 +40,10 @@ public class Bird {
 		this.speed = 0;
 		this.lives = DEFAULT_LIVES;
 		this.score = DEFAULT_SCORE;
+		img = Toolkit.
+				getDefaultToolkit().
+				getImage(getClass().
+				getResource("bird.png"));
 	}
 	
 	public void godModOn(){
@@ -49,7 +59,7 @@ public class Bird {
 	}
 
 	public void catchHeart(){
-		if(getLives() < 5)
+		if(getLives() < MAX_LIVES)
 			lives++;
 	}
 	
@@ -62,15 +72,7 @@ public class Bird {
 	}
 	
 	public void paint(Graphics g){
-		g.setColor(Color.BLUE);
-		
-		Rectangle rectangle = getRectangle();
-		
-		g.fillRect(
-				rectangle.x, 
-				rectangle.y, 
-				rectangle.width,
-				rectangle.height);
+		g.drawImage(img, getX(), getY(), null);
 	}
 
 	
@@ -85,22 +87,57 @@ public class Bird {
 			immortality -= deltaTime;
 	}
 	
+	public int getX(){
+		return (int) positionX - img.getHeight(null)/2;
+	}
+
+	public int getY(){
+		return (int) positionY - img.getHeight(null)/2;
+	}
+	
 	public Rectangle getRectangle(){
 		return new Rectangle(
-				(int) positionX - 25, 
-				(int) positionY - 25, 
-				50, 50);
+				(int) positionX - img.getHeight(null)/2, 
+				(int) positionY - img.getHeight(null)/2, 
+				img.getWidth(null),
+				img.getHeight(null));
+	}
+	
+	public List<Rectangle> getCollisionRectangles(){
+		List<Rectangle> rectangles = new ArrayList<>();
+		int x = getX();
+		int y = getY();
+
+		rectangles.add(new Rectangle(x+35, y+10, 5, 5));
+		rectangles.add(new Rectangle(x+35, y+10, 5, 5));
+		rectangles.add(new Rectangle(x+30, y+5, 5, 15));
+		rectangles.add(new Rectangle(x+20, y, 10, 25));
+		rectangles.add(new Rectangle(x+10, y+5, 10, 25));
+		rectangles.add(new Rectangle(x+5, y+20, 20, 5));
+		
+		return rectangles;
 	}
 	
 	public boolean collideWith(Tube tube){
-		Rectangle rectangle = getRectangle();
+		List<Rectangle> rectangles = getCollisionRectangles();
 		
-		return rectangle.intersects(tube.getTopRectangle()) || 
-				rectangle.intersects(tube.getBottomRectangle());
+		for(Rectangle r : rectangles){
+			if(r.intersects(tube.getBottomRectangle()) || r.intersects(tube.getTopRectangle()))
+				return true;
+		}
+		
+		return false;
 	}
 	
 	public boolean collideWith(Heart heart){
-		return getRectangle().intersects(heart.getRectangle());
+		List<Rectangle> rectangles = getCollisionRectangles();
+	
+		for(Rectangle r : rectangles){
+			if(r.intersects(heart.getRectangle()))
+				return true;
+	}
+	
+	return false;
 	}
 	
 	public boolean isOut(){
