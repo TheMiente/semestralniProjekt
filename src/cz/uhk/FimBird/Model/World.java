@@ -19,6 +19,7 @@ public class World {
 	private WorldListener worldListener;
 	private List<Tube> tubes;
 	private List<Heart> hearts;
+	private Ground ground;
 	private Image background;
 	private float backgroundMargin;
 	
@@ -27,7 +28,7 @@ public class World {
 		this.worldListener = worldListener;
 		this.tubes = new ArrayList<>();
 		this.hearts = new ArrayList<>();
-
+		this.ground = new Ground();
 		background = Toolkit.
 				getDefaultToolkit().
 				getImage(getClass().
@@ -72,6 +73,7 @@ public class World {
 		else
 			backgroundMargin += 0.1f;
 		
+		ground.update();
 	}
 	
 	public void drawWorldBackground(Graphics g, GameScreen gameScreen){
@@ -128,6 +130,10 @@ public class World {
 
 	public List<Tube> getTubes() {
 		return tubes;
+	}
+
+	public Ground getGround() {
+		return ground;
 	}
 
 	@Override

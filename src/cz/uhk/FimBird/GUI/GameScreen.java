@@ -20,6 +20,7 @@ import javax.swing.Timer;
 import cz.uhk.FimBird.ScoreBoard;
 import cz.uhk.FimBird.Interface.WorldListener;
 import cz.uhk.FimBird.Model.Bird;
+import cz.uhk.FimBird.Model.Ground;
 import cz.uhk.FimBird.Model.Heart;
 import cz.uhk.FimBird.Model.Player;
 import cz.uhk.FimBird.Model.Tube;
@@ -133,6 +134,7 @@ public class GameScreen extends BaseScreen implements WorldListener{
 		world = new World(bird, this);
 		world.generateRandom();
 		
+		
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -209,11 +211,9 @@ public class GameScreen extends BaseScreen implements WorldListener{
 		for(int i = 0; i < bird.getLives(); i++)
 			g.drawImage(Heart.getImg(), MainFrame.width - i*40 - 40, 10, this);
 		
-		Bird bird = world.getBird();
 		bird.paint(g);
 
-		g.setColor(new Color(0xf4a460));
-		g.fillRect(0, 700, MainFrame.width, 100);
+		world.getGround().paint(g);
 	}
 
 	@Override

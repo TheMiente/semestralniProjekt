@@ -9,9 +9,15 @@ public class Player {
 	}
 	
 	public Player(String nickname, int score) {
-		super();
 		this.nickname = nickname;
 		this.score = score;
+	}
+	
+	public Player(String fileLine) {
+		String[] split = fileLine.split(";");
+		
+		this.nickname = split[0];
+		this.score = Integer.parseInt(split[1]);
 	}
 	
 	public String getNickname() {
@@ -24,5 +30,10 @@ public class Player {
 
 	public boolean isBetter(Player p){
 		return this.getScore() > p.getScore();
+	}
+	
+	@Override
+	public String toString() {
+		return getNickname() + ";" + getScore();
 	}
 }

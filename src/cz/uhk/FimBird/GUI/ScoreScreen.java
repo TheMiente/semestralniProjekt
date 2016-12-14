@@ -41,7 +41,7 @@ public class ScoreScreen extends BaseScreen {
 		Dimension size = new Dimension(150, 50);
 		int locationX = (int) (MainFrame.width/2 - size.getWidth()/2);
 		
-		for(int i = 0; i < playerList.size(); i++){
+		for(int i = 0; i < ScoreBoard.MAX_PLAYERS; i++){
 			Player player = playerList.get(i);
 			
 			JLabel label = new JLabel((i + 1) + ". " + player.getNickname() + " - " + player.getScore());
