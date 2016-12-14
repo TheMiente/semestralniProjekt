@@ -1,6 +1,7 @@
 package cz.uhk.FimBird.GUI;
 
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -16,9 +17,11 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.Timer;
 
+import cz.uhk.FimBird.ScoreBoard;
 import cz.uhk.FimBird.Interface.WorldListener;
 import cz.uhk.FimBird.Model.Bird;
 import cz.uhk.FimBird.Model.Heart;
+import cz.uhk.FimBird.Model.Player;
 import cz.uhk.FimBird.Model.Tube;
 import cz.uhk.FimBird.Model.World;
 
@@ -30,11 +33,13 @@ public class GameScreen extends BaseScreen implements WorldListener{
 	private World world;
 	
 	private JLabel labelScore, labelGameOver;
+	private JTextField nickname;
+	private JButton back, pause, scoreBoard;
 
 	public GameScreen(MainFrame mainFrame) {
 		super(mainFrame);
 
-		JButton back = new JButton("Back");
+		back = new JButton("Back");
 		back.setLocation(10, 10);
 		back.setSize(80, 30);
 		back.addActionListener(new ActionListener() {
@@ -47,7 +52,7 @@ public class GameScreen extends BaseScreen implements WorldListener{
 		});
 
 		
-		JButton pause = new JButton("Pause");
+		pause = new JButton("Pause");
 		pause.setLocation(90, 10);
 		pause.setSize(80, 30);
 		pause.addActionListener(new ActionListener() {
@@ -61,10 +66,19 @@ public class GameScreen extends BaseScreen implements WorldListener{
 						lastTimeMillis = System.currentTimeMillis();
 						timer.restart();
 					}else{
+						ScoreBoard.newScore(
+							new Player(
+							nickname.getText(),
+							bird.getScore()
+							));
+						
 						labelGameOver.setVisible(false);
+						nickname.setVisible(false);
+						scoreBoard.setVisible(false);
 						pause.setText("Pause");
 						world.restart();
 						labelScore.setText("" + bird.getScore());
+						
 						repaint();
 					}
 					addNotify();
@@ -72,17 +86,44 @@ public class GameScreen extends BaseScreen implements WorldListener{
 			}
 		});
 		
+		scoreBoard = new JButton("Score board");
+		scoreBoard.setBounds(MainFrame.width/2 - 100, MainFrame.height/2 + 45, 200, 40);
+		scoreBoard.setVisible(false);
+		scoreBoard.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				timer.stop();
+
+				ScoreBoard.newScore(
+					new Player(
+					nickname.getText(),
+					bird.getScore()
+					));
+				
+				mainFrame.setScreen(new ScoreScreen(mainFrame));
+			}
+		});
+		
 		labelGameOver = new JLabel("Game Over");
-		labelGameOver.setBounds(MainFrame.width/2 - 100, MainFrame.height/2 - 40, 200, 40);
+		labelGameOver.setBounds(MainFrame.width/2 - 100, MainFrame.height/2 - 45, 200, 40);
 		labelGameOver.setFont(new Font("Bauhaus 93", Font.PLAIN, 40));
 		labelGameOver.setForeground(Color.red);
 		labelGameOver.setVisible(false);
 		
 		labelScore = new JLabel("" + Bird.DEFAULT_SCORE);
 		labelScore.setBounds(MainFrame.width/2 - 10, 10, 100, 40);
-		labelScore.setFont(new Font("Bauhaus 93", Font.PLAIN, 40));
+		labelScore.setFont(new Font("Bauhaus 93", Font.PLAIN, 30));
 		labelScore.setForeground(Color.red);
 		
+		nickname = new JTextField("Nickname");
+		nickname.setBounds(MainFrame.width/2 - 100, MainFrame.height/2, 200, 30);
+		nickname.setFont(new Font("Bauhaus 93", Font.PLAIN, 30));
+		nickname.setForeground(Color.red);
+		nickname.setVisible(false);
+		
+		add(scoreBoard);
+		add(nickname);
 		add(labelGameOver);
 		add(labelScore);
 		add(back);
@@ -125,11 +166,13 @@ public class GameScreen extends BaseScreen implements WorldListener{
 				world.update(deltaTime);
 
 				labelScore.setText("" + bird.getScore());	
-
+				
 				if(bird.isDead()){
 					timer.stop();
 					pause.setText("Restart");
 					labelGameOver.setVisible(true);
+					nickname.setVisible(true);
+					scoreBoard.setVisible(true);
 				}
 
 				repaint();
