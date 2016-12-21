@@ -11,6 +11,7 @@ import cz.uhk.FimBird.Interface.WorldListener;
 
 public class World {
 	public static final int SPEED = 200;
+	public static final int MISSILE_SPEED = 300;
 
 	private static final int SPACE_BETWEEN_TUBES = 300;
 	private static final int SPACE_BETWEEN_HEARTS = 1050;
@@ -19,6 +20,7 @@ public class World {
 	private WorldListener worldListener;
 	private List<Tube> tubes;
 	private List<Heart> hearts;
+	private List<Missile> missiles;
 	private Ground ground;
 	private Image background;
 	private float backgroundMargin;
@@ -28,6 +30,7 @@ public class World {
 		this.worldListener = worldListener;
 		this.tubes = new ArrayList<>();
 		this.hearts = new ArrayList<>();
+		this.missiles = new ArrayList<>();
 		this.ground = new Ground();
 		background = Toolkit.
 				getDefaultToolkit().
@@ -44,6 +47,34 @@ public class World {
 		
 		if(bird.isOut())
 			worldListener.outOf();
+		
+		for(int i = 0; i < missiles.size(); i++){
+			Missile missile = missiles.get(i);
+			missile.update(deltaTime);
+			
+			if(missile.isBeyond())
+				missiles.remove(i);
+			else{
+			
+				boolean notCollided = true;
+				for(int j = 0; j < tubes.size() && notCollided; j++){
+					Tube tube = tubes.get(i);
+	
+					if(missile.collideWith(tube) == 1){
+						missiles.remove(i);
+						tube.destroyTopTube();
+						notCollided = false;
+					}
+					
+					if(missile.collideWith(tube) == 2){
+						missiles.remove(i);
+						tube.destroyBottomTube();
+						notCollided = false;
+					}
+				}
+
+			}
+		}
 		
 		for(int i = 0; i < tubes.size(); i++){
 			Tube tube = tubes.get(i);
@@ -86,6 +117,7 @@ public class World {
 		bird.dieMotherfucker();
 		getTubes().clear();
 		getHearts().clear();
+		getMissiles().clear();
 		generateRandom();
 	}
 	
@@ -120,6 +152,10 @@ public class World {
 		hearts.add(heart);
 	}
 	
+	public void addMissile(Missile missile){
+		missiles.add(missile);
+	}
+	
 	public Bird getBird() {
 		return bird;
 	}
@@ -131,7 +167,11 @@ public class World {
 	public List<Tube> getTubes() {
 		return tubes;
 	}
-
+	
+	public List<Missile> getMissiles(){
+		return missiles;
+	}
+	
 	public Ground getGround() {
 		return ground;
 	}

@@ -28,6 +28,7 @@ public class Bird {
 	private int lives;
 	private int score;
 	private Image img;
+	private int missiles;
 	
 	public Bird(String name){
 		this(name, DEFAULT_X, DEFAULT_Y);
@@ -44,12 +45,16 @@ public class Bird {
 				getDefaultToolkit().
 				getImage(getClass().
 				getResource("bird.png"));
+		missiles = 5;
 	}
 	
 	public void godModOn(){
 		immortality = IMMORTALITY;
 	}
 	
+	private int getMissiles(){
+		return missiles;
+	}
 	public boolean isGodModOn(){
 		return immortality > 0;
 	}
@@ -122,7 +127,7 @@ public class Bird {
 		List<Rectangle> rectangles = getCollisionRectangles();
 		
 		for(Rectangle r : rectangles){
-			if(r.intersects(tube.getBottomRectangle()) || r.intersects(tube.getTopRectangle()))
+			if((r.intersects(tube.getBottomRectangle()) && !tube.isBottomDestroyed()) || (r.intersects(tube.getTopRectangle()) && !tube.isTopDestroyed()))
 				return true;
 		}
 		

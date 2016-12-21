@@ -22,6 +22,7 @@ import cz.uhk.FimBird.Interface.WorldListener;
 import cz.uhk.FimBird.Model.Bird;
 import cz.uhk.FimBird.Model.Ground;
 import cz.uhk.FimBird.Model.Heart;
+import cz.uhk.FimBird.Model.Missile;
 import cz.uhk.FimBird.Model.Player;
 import cz.uhk.FimBird.Model.Tube;
 import cz.uhk.FimBird.Model.World;
@@ -138,10 +139,14 @@ public class GameScreen extends BaseScreen implements WorldListener{
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				bird.goUp();
-				if(!timer.isRunning()){
-					lastTimeMillis = System.currentTimeMillis();
-					timer.start();
+				if(e.getButton() == MouseEvent.BUTTON1){
+					bird.goUp();
+					if(!timer.isRunning()){
+						lastTimeMillis = System.currentTimeMillis();
+						timer.start();
+					}
+				}else{
+					world.addMissile(new Missile(bird.getPositionX(), bird.getPositionY()));
 				}
 			}
 		});
@@ -203,14 +208,17 @@ public class GameScreen extends BaseScreen implements WorldListener{
 			heart.paint(g);
 		
 		List<Tube> tubes = world.getTubes();
-		for(Tube tube : tubes){
+		for(Tube tube : tubes)
 			tube.paint(g);
-		}
+		
+		List<Missile> missiles = world.getMissiles();
+		for(Missile missile : missiles)
+			missile.paint(g);
 		
 		g.setColor(Color.red);
 		for(int i = 0; i < bird.getLives(); i++)
 			g.drawImage(Heart.getImg(), MainFrame.width - i*40 - 40, 10, this);
-		
+				
 		bird.paint(g);
 
 		world.getGround().paint(g);

@@ -15,34 +15,58 @@ public class Tube {
 	private float height;
 	private Color color;
 	private boolean pointAdded;
+	private boolean topDestroyed;
+	private boolean bottomDestroyed;
 	
 	public Tube(float positionX, float height) {
 		this.positionX = positionX;
 		this.height = height;
 		this.color = Color.GREEN;
 		this.pointAdded = false;
+		this.topDestroyed = false;
+		this.bottomDestroyed = false;
 	}
 	
 	public void update(float deltaTime){
 		positionX -= World.SPEED * deltaTime;
 	}
 	
+	public boolean isTopDestroyed(){
+		return topDestroyed;
+	}
+	
+	public boolean isBottomDestroyed(){
+		return bottomDestroyed;
+	}
+	
+	public void destroyTopTube(){
+		topDestroyed = true;
+	}
+	
+	public void destroyBottomTube(){
+		bottomDestroyed = true;
+	}
+	
 	public void paint(Graphics g){
 		g.setColor(Color.GREEN);
 		
+		if(!topDestroyed){
 		Rectangle topRectangle = getTopRectangle();
-		g.fillRect(
-				topRectangle.x, 
-				topRectangle.y, 
-				topRectangle.width,
-				topRectangle.height);
+			g.fillRect(
+					topRectangle.x, 
+					topRectangle.y, 
+					topRectangle.width,
+					topRectangle.height);
+		}
 		
-		Rectangle bottomRectangle = getBottomRectangle();
-		g.fillRect(
-				bottomRectangle.x, 
-				bottomRectangle.y, 
-				bottomRectangle.width,
-				bottomRectangle.height);
+		if(!bottomDestroyed){
+			Rectangle bottomRectangle = getBottomRectangle();
+			g.fillRect(
+					bottomRectangle.x, 
+					bottomRectangle.y, 
+					bottomRectangle.width,
+					bottomRectangle.height);
+		}
 	}
 	
 	public Rectangle getTopRectangle(){

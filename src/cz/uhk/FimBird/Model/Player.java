@@ -1,6 +1,6 @@
 package cz.uhk.FimBird.Model;
 
-public class Player {
+public class Player implements Comparable<Player>{
 	private String nickname;
 	private int score;
 	
@@ -27,9 +27,10 @@ public class Player {
 	public int getScore() {
 		return score;
 	}
-
-	public boolean isBetter(Player p){
-		return this.getScore() > p.getScore();
+	
+	@Override
+	public int compareTo(Player p) {
+		return  p.getScore() - this.getScore();
 	}
 	
 	@Override
