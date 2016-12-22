@@ -55,20 +55,19 @@ public class World {
 			if(missile.isBeyond())
 				missiles.remove(i);
 			else{
-			
 				boolean notCollided = true;
 				for(int j = 0; j < tubes.size() && notCollided; j++){
-					Tube tube = tubes.get(i);
+					Tube tube = tubes.get(j);
 	
 					if(missile.collideWith(tube) == 1){
 						missiles.remove(i);
-						tube.destroyTopTube();
+						tube.setdestroyTopTube(true);
 						notCollided = false;
 					}
 					
 					if(missile.collideWith(tube) == 2){
 						missiles.remove(i);
-						tube.destroyBottomTube();
+						tube.setdestroyBottomTube(true);
 						notCollided = false;
 					}
 				}
@@ -134,6 +133,8 @@ public class World {
 				tube.setPositionX(tube.getPositionX() + tubes.size() * SPACE_BETWEEN_TUBES);
 				tube.setHeight(Tube.getRandomHeight());
 				tube.pointNotAddedAnymore();
+				tube.setdestroyTopTube(false);
+				tube.setdestroyBottomTube(false);
 			}
 		}
 		

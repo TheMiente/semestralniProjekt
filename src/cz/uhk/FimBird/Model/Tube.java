@@ -39,19 +39,19 @@ public class Tube {
 		return bottomDestroyed;
 	}
 	
-	public void destroyTopTube(){
-		topDestroyed = true;
+	public void setdestroyTopTube(boolean isDestroyed){
+		topDestroyed = isDestroyed;
 	}
 	
-	public void destroyBottomTube(){
-		bottomDestroyed = true;
+	public void setdestroyBottomTube(boolean isDestroyed){
+		bottomDestroyed = isDestroyed;
 	}
 	
 	public void paint(Graphics g){
 		g.setColor(Color.GREEN);
-		
+
 		if(!topDestroyed){
-		Rectangle topRectangle = getTopRectangle();
+			Rectangle topRectangle = getTopRectangle();
 			g.fillRect(
 					topRectangle.x, 
 					topRectangle.y, 

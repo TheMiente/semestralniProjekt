@@ -55,6 +55,7 @@ public class Bird {
 	private int getMissiles(){
 		return missiles;
 	}
+	
 	public boolean isGodModOn(){
 		return immortality > 0;
 	}
@@ -140,9 +141,9 @@ public class Bird {
 		for(Rectangle r : rectangles){
 			if(r.intersects(heart.getRectangle()))
 				return true;
-	}
+		}
 	
-	return false;
+		return false;
 	}
 	
 	public boolean isOut(){

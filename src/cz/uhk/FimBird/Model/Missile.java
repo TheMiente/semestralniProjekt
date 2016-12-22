@@ -46,16 +46,11 @@ public class Missile {
 	}
 
 	public int collideWith(Tube tube){
-		if(tube.getTopRectangle().intersects(getRectangle()) && !tube.isTopDestroyed()){
-			System.out.println(1 + " c");
-			tube.destroyTopTube();
+		if(tube.getTopRectangle().intersects(getRectangle()) && !tube.isTopDestroyed())
 			return 1;
-		}
 		
-		if(tube.getBottomRectangle().intersects(getRectangle()) && !tube.isBottomDestroyed()){
-			System.out.println(2 + " c");
+		if(tube.getBottomRectangle().intersects(getRectangle()) && !tube.isBottomDestroyed())
 			return 2;
-		}
 		
 		return 0;
 	}
